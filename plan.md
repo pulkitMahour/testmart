@@ -189,7 +189,7 @@ Each phase ends in something verifiable. Backend is built first, then the client
 - [x] **Phase 5 — Admin**
   `RolesGuard`, stats, product CRUD, order list + status update, user list + delete.
 
-- [ ] **Phase 6 — Frontend**
+- [x] **Phase 6 — Frontend**
   Contexts (Auth/Cart/Toast), routing + guards, all pages, styling, and `data-testid`s (§9).
 
 - [ ] **Phase 7 — Integrate & smoke test**
