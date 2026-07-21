@@ -99,6 +99,7 @@ Base path: `/api` (JWT cookie set on login; RBAC via `admin` role).
 | POST / PUT / DELETE | `/admin/products`, `/admin/products/:id` | admin |
 | GET / PUT | `/admin/orders`, `/admin/orders/:id/status` | admin |
 | GET / DELETE | `/admin/users`, `/admin/users/:id` | admin |
+| POST | `/test/reset` | test-only (env-gated; wipes + reseeds the DB) |
 
 ## Environment variables (server)
 
@@ -113,6 +114,11 @@ All optional locally; sensible dev defaults. Set these in production.
 | `CLIENT_URL` | `http://localhost:5173` | Allowed CORS origin (credentialed) |
 | `COOKIE_SECURE` | `false` | `true` for HTTPS / cross-site cookies |
 | `COOKIE_SAMESITE` | `lax` | `none` for split-domain hosting |
+| `SERVE_CLIENT` | `false` | `true` → API also serves the built client (single-service) |
+| `RATE_LIMIT_ENABLED` | `false` | `true` → enable rate limiting (set on public deploys) |
+| `RATE_LIMIT_TTL` / `RATE_LIMIT_MAX` | `60000` / `100` | Window (ms) and max requests per IP |
+| `ENABLE_TEST_RESET` | `false` | `true` → enable `POST /test/reset` (local / CI only) |
+| `TEST_RESET_TOKEN` | *(none)* | If set, `POST /test/reset` requires header `x-test-reset-token` |
 
 ## Automation notes
 
@@ -124,6 +130,11 @@ Being a Playwright target is the point, so the DOM is built for it:
   `order-row` + `data-order-id`).
 - Loading and empty states expose `data-testid="loading"` / `"empty"` as stable wait anchors.
 - Home-page filters (keyword/category/sort/page) live in the URL query, so states are shareable.
+- **`POST /api/test/reset`** wipes + reseeds the DB to the known state — call it before a run for
+  deterministic data. Env-gated (`ENABLE_TEST_RESET=true`); returns **404** when disabled, so it's
+  safe to leave in a public deploy (keep the flag OFF there).
+- **Rate limiting** is OFF by default so it never throttles test runs; enable it on public deploys
+  with `RATE_LIMIT_ENABLED=true` (login/register get stricter per-route limits).
 
 ## Notes
 

@@ -19,6 +19,10 @@ services:
         value: "true"
       - key: COOKIE_SAMESITE
         value: lax
+      # Public instance -> rate limiting ON (protects against abuse / mass registration).
+      - key: RATE_LIMIT_ENABLED
+        value: "true"
+      # NOTE: ENABLE_TEST_RESET is deliberately NOT set — the DB-wipe endpoint stays OFF here.
       # Render generates a strong secret automatically.
       - key: JWT_SECRET
         generateValue: true

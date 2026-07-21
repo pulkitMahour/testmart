@@ -14,6 +14,9 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
+  // Behind a reverse proxy (e.g. Render) — so rate limiting sees the real client IP.
+  app.getHttpAdapter().getInstance().set('trust proxy', 1);
+
   app.use(cookieParser());
   app.setGlobalPrefix('api');
   app.enableCors({

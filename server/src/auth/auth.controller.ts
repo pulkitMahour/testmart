@@ -1,4 +1,5 @@
 import { Body, Controller, HttpCode, Post, Res } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { CookieOptions, Response } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -12,6 +13,7 @@ export class AuthController {
   constructor(private readonly auth: AuthService) {}
 
   @Post('register')
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   async register(@Body() dto: RegisterDto, @Res({ passthrough: true }) res: Response) {
     const { user, token } = await this.auth.register(dto);
     this.setAuthCookie(res, token);
@@ -20,6 +22,7 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(200)
+  @Throttle({ default: { limit: 15, ttl: 60000 } })
   async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
     const { user, token } = await this.auth.login(dto);
     this.setAuthCookie(res, token);
