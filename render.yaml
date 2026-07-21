@@ -1,0 +1,27 @@
+# Render Blueprint — one free web service that serves the API + built React client.
+# Deploy: push to GitHub, then on render.com choose New > Blueprint and pick this repo.
+# After the first deploy, set MONGO_URI (Atlas connection string) in the dashboard.
+services:
+  - type: web
+    name: testmart
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run install:all && npm run build
+    startCommand: node server/dist/main.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # API serves the built client -> single origin, simplest cookies.
+      - key: SERVE_CLIENT
+        value: "true"
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: COOKIE_SAMESITE
+        value: lax
+      # Render generates a strong secret automatically.
+      - key: JWT_SECRET
+        generateValue: true
+      # Set this in the Render dashboard to your MongoDB Atlas connection string.
+      - key: MONGO_URI
+        sync: false
