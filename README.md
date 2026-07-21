@@ -4,6 +4,8 @@ A full-stack e-commerce application built **specifically as a stable target for 
 automation**. Fully self-contained — no external services, no real payments — and it seeds
 deterministic data on every boot so tests start from a known state.
 
+**🔗 Live demo:** https://testmart-gvcc.onrender.com &nbsp;·&nbsp; _free tier — the first request may take ~50s to wake the instance._
+
 > The automation test suite lives in a **separate project**. This repo is the website only.
 > See [`plan.md`](./plan.md) for the full architecture and phased build history, and
 > [`CLAUDE.md`](./CLAUDE.md) for conventions and gotchas.
