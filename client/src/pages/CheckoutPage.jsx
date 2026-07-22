@@ -56,7 +56,9 @@ export default function CheckoutPage() {
       notify('Order placed successfully');
       navigate(`/orders/${data._id}`);
     } catch (err) {
-      setError(err.response?.data?.message || 'Could not place order');
+      const msg = err.response?.data?.message || 'Could not place order';
+      setError(msg);
+      notify(msg, 'error');
     } finally {
       setPlacing(false);
     }

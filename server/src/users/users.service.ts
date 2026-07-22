@@ -9,10 +9,14 @@ import { isValidObjectId, Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { toUserResponse } from './user.mapper';
+import { OrdersService } from '../orders/orders.service';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    private readonly orders: OrdersService,
+  ) {}
 
   findByEmail(email: string) {
     return this.userModel.findOne({ email: email.toLowerCase().trim() });
@@ -61,6 +65,8 @@ export class UsersService {
       throw new ForbiddenException('Default accounts cannot be deleted');
     }
     await user.deleteOne();
+    // Cascade: a deleted user leaves no orders behind.
+    await this.orders.removeByUser(id);
     return { message: 'User deleted', id };
   }
 }

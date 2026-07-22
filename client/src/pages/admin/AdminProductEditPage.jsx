@@ -66,7 +66,9 @@ export default function AdminProductEditPage() {
       }
       navigate('/admin/products');
     } catch (err) {
-      setError(err.response?.data?.message || 'Save failed');
+      const msg = err.response?.data?.message || 'Save failed';
+      setError(msg);
+      notify(msg, 'error');
     } finally {
       setSaving(false);
     }

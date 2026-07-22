@@ -117,4 +117,10 @@ export class OrdersService {
     if (!deleted) throw new NotFoundException('Order not found');
     return { message: 'Order deleted', id };
   }
+
+  // Cascade helper: drop every order belonging to a user (called when the user is deleted).
+  async removeByUser(userId: string): Promise<number> {
+    const res = await this.orderModel.deleteMany({ user: userId });
+    return res.deletedCount ?? 0;
+  }
 }

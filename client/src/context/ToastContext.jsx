@@ -14,7 +14,7 @@ export function ToastProvider({ children }) {
     (message, type = 'success') => {
       const id = ++idRef.current;
       setToasts((list) => [...list, { id, message, type }]);
-      setTimeout(() => dismiss(id), 3500);
+      setTimeout(() => dismiss(id), 5000);
       return id;
     },
     [dismiss],

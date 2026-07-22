@@ -40,7 +40,9 @@ export default function ProfilePage() {
       setForm((f) => ({ ...f, password: '' }));
       notify('Profile updated');
     } catch (err) {
-      setError(err.response?.data?.message || 'Update failed');
+      const msg = err.response?.data?.message || 'Update failed';
+      setError(msg);
+      notify(msg, 'error');
     } finally {
       setSaving(false);
     }

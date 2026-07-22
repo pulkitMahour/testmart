@@ -501,12 +501,12 @@ legend {
 }
 .toast-container {
   position: fixed;
-  bottom: 1.25rem;
+  top: 4.5rem; /* clears the sticky navbar (~3.3rem) so toasts sit in the top-right */
   right: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  z-index: 50;
+  z-index: 50; /* above the navbar (z-index 20) and page content */
 }
 .toast {
   background: var(--text);
@@ -526,7 +526,7 @@ legend {
 @keyframes toast-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(-8px);
   }
 }
 
