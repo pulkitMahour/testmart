@@ -56,7 +56,17 @@ export default function AdminProductsPage() {
           <tbody>
             {products.map((p) => (
               <tr key={p._id} data-testid="admin-product-row" data-product-id={p._id}>
-                <td>{p.name}</td>
+                <td>
+                  {p.name}
+                  {p.isSeed && (
+                    <>
+                      {' '}
+                      <span className="badge muted" data-testid="admin-product-seed-tag">
+                        default
+                      </span>
+                    </>
+                  )}
+                </td>
                 <td>{p.category}</td>
                 <td>${p.price.toFixed(2)}</td>
                 <td className={p.countInStock === 0 ? 'danger' : ''}>{p.countInStock}</td>
@@ -70,6 +80,7 @@ export default function AdminProductsPage() {
                   </Link>
                   <button
                     className="btn btn-danger"
+                    disabled={p.isSeed}
                     onClick={() => remove(p._id, p.name)}
                     data-testid="admin-product-delete"
                   >

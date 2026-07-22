@@ -109,4 +109,12 @@ export class OrdersService {
     if (!order) throw new NotFoundException('Order not found');
     return order;
   }
+
+  // Orders carry no seed data, so they are always deletable.
+  async remove(id: string) {
+    if (!isValidObjectId(id)) throw new NotFoundException('Order not found');
+    const deleted = await this.orderModel.findByIdAndDelete(id);
+    if (!deleted) throw new NotFoundException('Order not found');
+    return { message: 'Order deleted', id };
+  }
 }

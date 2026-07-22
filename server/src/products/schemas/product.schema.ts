@@ -31,6 +31,10 @@ export class Product {
 
   @Prop({ default: false })
   featured: boolean;
+
+  // Marks the deterministic demo data seeded on boot; seeded products cannot be deleted.
+  @Prop({ default: false })
+  isSeed: boolean;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

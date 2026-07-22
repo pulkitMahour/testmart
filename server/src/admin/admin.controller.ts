@@ -63,6 +63,11 @@ export class AdminController {
     return this.orders.updateStatus(id, dto.status);
   }
 
+  @Delete('orders/:id')
+  deleteOrder(@Param('id') id: string) {
+    return this.orders.remove(id);
+  }
+
   // ---- Users ----
   @Get('users')
   listUsers() {

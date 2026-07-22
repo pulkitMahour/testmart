@@ -29,6 +29,10 @@ export class User {
 
   @Prop({ type: AddressSchema, default: {} })
   address: Address;
+
+  // Marks the deterministic demo accounts seeded on boot; seeded users cannot be deleted.
+  @Prop({ default: false })
+  isSeed: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

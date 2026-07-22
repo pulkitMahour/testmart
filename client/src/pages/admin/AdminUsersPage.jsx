@@ -58,7 +58,7 @@ export default function AdminUsersPage() {
               <td>
                 <button
                   className="btn btn-danger"
-                  disabled={u.id === me?.id}
+                  disabled={u.id === me?.id || u.isSeed}
                   onClick={() => remove(u.id, u.name)}
                   data-testid="admin-user-delete"
                 >

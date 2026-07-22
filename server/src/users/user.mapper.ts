@@ -8,6 +8,7 @@ export function toUserResponse(user: UserDocument) {
     email: user.email,
     role: user.role,
     address: user.address || {},
+    isSeed: !!user.isSeed,
     createdAt: (user as any).createdAt,
   };
 }

@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
@@ -50,8 +55,12 @@ export class UsersService {
       throw new BadRequestException('You cannot delete your own account');
     }
     if (!isValidObjectId(id)) throw new NotFoundException('User not found');
-    const deleted = await this.userModel.findByIdAndDelete(id);
-    if (!deleted) throw new NotFoundException('User not found');
+    const user = await this.userModel.findById(id);
+    if (!user) throw new NotFoundException('User not found');
+    if (user.isSeed) {
+      throw new ForbiddenException('Default accounts cannot be deleted');
+    }
+    await user.deleteOne();
     return { message: 'User deleted', id };
   }
 }

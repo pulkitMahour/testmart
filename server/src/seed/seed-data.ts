@@ -1,6 +1,7 @@
 // Deterministic seed data. Kept fixed so UI-automation assertions on counts, titles,
 // prices, and stock stay stable across runs.
 
+// isSeed: true marks these as the protected demo data — the server refuses to delete them.
 export const SEED_USERS = [
   {
     name: 'Admin User',
@@ -16,7 +17,7 @@ export const SEED_USERS = [
     role: 'user',
     address: { street: '42 Market St', city: 'Springfield', postalCode: '55555', country: 'USA' },
   },
-];
+].map((u) => ({ ...u, isSeed: true }));
 
 const img = (category: string) => `/images/${category}.svg`;
 
@@ -203,4 +204,4 @@ export const SEED_PRODUCTS = [
     numReviews: 73,
     featured: false,
   },
-];
+].map((p) => ({ ...p, isSeed: true }));
